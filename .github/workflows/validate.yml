@@ -52,4 +52,8 @@ jobs:
           grep -q 'state.challengeResults' index.html
           grep -q 'theme:"light"' index.html
           grep -q -- '--purple' index.html
+          grep -q 'function recordLearning' index.html
+          grep -q 'function learningStreak' index.html
+          grep -q 'id="weeklyGoal"' index.html
+          grep -q 'achievement-grid' index.html
           echo "Required files, themes, and challenge markers are present."
