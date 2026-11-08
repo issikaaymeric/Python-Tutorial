@@ -1,677 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-    <title>Python Fundamentals Presentation</title>
-    <link rel="icon" href="https://www.python.org/static/favicon.ico" type="image/x-icon">
-    <style>
-        :root{
-            --slide-pad-x: clamp(16px, 5vw, 60px);
-            --slide-pad-y: clamp(16px, 4vh, 40px);
-            --nav-h: 64px;
-        }
-        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        html{height:100%}
-        body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#1a1a2e;overflow:hidden;height:100dvh;height:100vh}
-        .presentation{width:100vw;height:100dvh;height:100vh;position:relative}
-        .slide{
-            width:100%;height:100%;position:absolute;top:0;left:0;display:none;
-            padding:calc(var(--slide-pad-y) + 44px) var(--slide-pad-x) calc(var(--slide-pad-y) + var(--nav-h));
-            background:linear-gradient(135deg,#FFD43B 0%,#FFE873 50%,#FFF3A3 100%);
-            color:#1a1a2e;overflow-y:auto;-webkit-overflow-scrolling:touch
-        }
-        .slide.active{display:flex;flex-direction:column;animation:slideIn .5s cubic-bezier(0.34,1.56,0.64,1)}
-        @keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        @media (prefers-reduced-motion: reduce){
-            .slide.active{animation:none}
-        }
-        .slide h1{font-size:clamp(1.5em,4.5vw,2.6em);margin-bottom:12px;font-weight:800;color:#306998;text-shadow:2px 2px 4px rgba(0,0,0,0.1)}
-        .slide h2{font-size:clamp(1.3em,3.6vw,2em);margin-bottom:15px;color:#306998;font-weight:700}
-        .slide h3{font-size:clamp(1.05em,2.4vw,1.3em);margin:12px 0 8px;color:#3776AB;font-weight:600}
-        .slide p,.slide li{font-size:clamp(0.9em,2vw,1.05em);line-height:1.6;margin-bottom:6px;color:#1a1a2e}
-        .slide ul{margin-left:22px}
-        .slide code{background:rgba(55,118,171,0.15);padding:2px 6px;border-radius:5px;color:#306998;font-family:'Fira Code',Consolas,monospace;font-size:0.9em;border:1px solid rgba(55,118,171,0.3);word-break:break-word}
-        .slide pre{background:#1e2433;padding:clamp(12px,2.5vw,20px) clamp(14px,3vw,25px);border-radius:12px;margin:15px 0;border:3px solid #306998;overflow-x:auto;-webkit-overflow-scrolling:touch;box-shadow:0 8px 30px rgba(0,0,0,0.3)}
-        .slide pre code{background:none;color:#e8e8e8;font-size:clamp(0.75em,1.9vw,1.05em);line-height:1.5;display:block;border:none;white-space:pre}
-        .keyword{color:#FF79C6}.string{color:#98c379}.function{color:#61afef}.comment{color:#6a9955;font-style:italic}.number{color:#FFD43B}.operator{color:#56b6c2}.builtin{color:#79C0FF}.decorator{color:#FF9F43}
-        .slide-title{background:linear-gradient(135deg,#306998 0%,#3776AB 50%,#4a90c2 100%);text-align:center;align-items:center;justify-content:center;overflow:hidden}
-        .slide-title::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,212,59,0.1) 1px,transparent 1px);background-size:30px 30px;animation:grid 20s linear infinite}
-        @media (prefers-reduced-motion: reduce){.slide-title::after{animation:none}}
-        @keyframes grid{from{transform:translate(0,0)}to{transform:translate(30px,30px)}}
-        .slide-title h1{font-size:clamp(1.7em,6vw,2.8em);color:#FFD43B;text-shadow:0 0 40px rgba(255,212,59,0.5)}
-        .slide-title p{color:#fff}
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
-        table{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;background:#fff;border-radius:10px;overflow:hidden;font-size:clamp(0.75em,1.8vw,0.95em);box-shadow:0 4px 15px rgba(0,0,0,0.1)}
-        .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px}
-        .table-wrap table{margin:12px 0;min-width:480px}
-        table th,table td{padding:clamp(6px,1.5vw,10px) clamp(8px,2vw,12px);text-align:left;border-bottom:1px solid rgba(55,118,171,0.2);white-space:nowrap}
-        table th{background:#306998;color:#FFD43B;font-weight:600}
-        table tr:hover{background:rgba(55,118,171,0.08)}
-        .nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);display:flex;align-items:center;justify-content:center;gap:12px;z-index:1000;background:linear-gradient(0deg,rgba(0,0,0,0.15),transparent);padding-bottom:env(safe-area-inset-bottom)}
-        .nav-btn{background:linear-gradient(135deg,#306998,#3776AB);color:#FFD43B;border:none;padding:10px 22px;font-size:clamp(0.85em,2vw,1.05em);min-height:44px;border-radius:10px;cursor:pointer;font-weight:700;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 15px rgba(55,118,171,0.4);touch-action:manipulation}
-        .nav-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(55,118,171,0.6)}
-        .nav-btn:active{transform:translateY(0)}
-        .nav-btn:disabled{background:#999;cursor:not-allowed;opacity:.5;box-shadow:none;transform:none}
-        .counter{position:fixed;top:env(safe-area-inset-top,0px);right:0;margin:12px 14px;background:#306998;color:#FFD43B;padding:6px 14px;border-radius:20px;font-size:clamp(0.8em,1.8vw,1.05em);z-index:1000;font-weight:600;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
-        .progress{position:fixed;top:0;left:0;height:4px;background:#306998;z-index:1001;transition:width .4s ease}
-        .box{background:#fff;padding:clamp(10px,2vw,15px);border-radius:10px;border-left:5px solid #306998;margin:10px 0;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
-        .box-yellow{border-left-color:#FF9F43;background:#fff8e7}
-        .slide-tips{background:linear-gradient(135deg,#FF6B6B 0%,#FF8E8E 100%);color:#fff}
-        .slide-tips h2,.slide-tips h3{color:#fff}
-        .slide-tips .box{background:rgba(255,255,255,0.95);color:#1a1a2e}
-        .slide-oop{background:linear-gradient(135deg,#6C5CE7 0%,#A29BFE 100%);color:#fff}
-        .slide-oop h2,.slide-oop h3{color:#FFD43B}
-        .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:12px}
-        .card{background:#fff;padding:clamp(10px,2vw,15px);border-radius:10px;text-align:center;border:2px solid #306998;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
-        .card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.15)}
-        .card h4{color:#306998;margin-bottom:8px;font-weight:700;font-size:clamp(0.9em,2vw,1.05em)}
-        .logo{width:clamp(56px,10vw,80px);height:clamp(56px,10vw,80px);margin:15px auto;display:block}
-        footer{position:fixed;bottom:calc(var(--nav-h) + 6px);left:50%;transform:translateX(-50%);color:#fff;font-size:0.8em;opacity:0.6;font-weight:500;white-space:nowrap;z-index:999}
-        .swipe-hint{position:fixed;bottom:calc(var(--nav-h) + 30px);left:50%;transform:translateX(-50%);color:#1a1a2e;font-size:0.75em;opacity:0;z-index:999;background:rgba(255,255,255,0.7);padding:4px 10px;border-radius:12px;pointer-events:none;transition:opacity .3s}
-        .ref-list{margin-top:10px}
-        .ref-list a{color:#306998;font-weight:600;word-break:break-all;text-decoration:none;border-bottom:1px dashed rgba(48,105,152,0.5)}
-        .ref-list a:hover{color:#1a1a2e;border-bottom-style:solid}
-        .ref-item{margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(55,118,171,0.15)}
-        .ref-item:last-child{border-bottom:none}
-        .ref-tag{display:inline-flex;align-items:center;justify-content:center;margin-right:10px;vertical-align:middle}
-        .ref-icon{width:22px;height:22px;flex-shrink:0}
-        .ref-item{display:flex;align-items:center}
-        .ref-heading{display:flex;align-items:center;gap:8px}
-        .ref-heading svg{width:20px;height:20px;flex-shrink:0}
-
-        /* ===== Tablet ===== */
-        @media (max-width: 900px){
-            .grid-3{grid-template-columns:repeat(2,1fr)}
-        }
-
-        /* ===== Mobile ===== */
-        @media (max-width: 640px){
-            :root{--nav-h:58px}
-            .two-col{grid-template-columns:1fr;gap:12px}
-            .grid-3{grid-template-columns:1fr;gap:10px}
-            .slide ul{margin-left:18px}
-            .nav-btn{padding:9px 16px}
-            .counter{margin:8px 10px;padding:5px 12px}
-            footer{display:none}
-            .swipe-hint{display:block}
-        }
-
-        @media (max-width: 640px) and (hover: none){
-            .swipe-hint.show{opacity:1}
-        }
-
-        @media (max-height: 480px) and (orientation: landscape){
-            .slide{padding-top:calc(var(--slide-pad-y) + 34px)}
-            .slide h1{margin-bottom:6px}
-            .slide h2{margin-bottom:8px}
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="Learn Python through clear lessons, hands-on coding, quizzes and projects.">
+<title>Python Path — Learn by building</title>
+<link rel="icon" href="https://www.python.org/static/favicon.ico">
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#111c2e;--panel2:#17243a;--line:#263750;--text:#edf3fc;--muted:#9aabc2;--blue:#62a8ff;--yellow:#ffd43b;--green:#42c99a;--red:#ff7777;--shadow:0 16px 40px #0003}
+:root.light{color-scheme:light;--bg:#f3f6fb;--panel:#fff;--panel2:#edf3fa;--line:#dce5f0;--text:#17243a;--muted:#5c6e85;--blue:#1769c2;--yellow:#f1bd18;--green:#087e5b;--red:#c33d48;--shadow:0 12px 30px #1c355010}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:270px minmax(0,1fr)}
+.sidebar{height:100vh;position:sticky;top:0;background:var(--panel);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:20px;overflow:auto}.brand{display:flex;gap:11px;align-items:center;padding:0 8px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#3776ab,#ffd43b);display:grid;place-items:center;color:#102038;font-size:22px;font-weight:900}.brand strong{display:block;font-size:16px}.brand small{color:var(--muted)}.nav-label{padding:0 10px;color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.nav-list{display:grid;gap:5px}.nav-item{width:100%;display:flex;align-items:center;gap:11px;text-align:left;border:0;background:transparent;color:var(--muted);padding:10px 12px;border-radius:10px}.nav-item:hover,.nav-item.active{background:var(--panel2);color:var(--text)}.nav-item.active{box-shadow:inset 3px 0 var(--blue)}.nav-icon{width:22px;text-align:center}.side-progress{margin-top:auto;padding:14px;background:var(--panel2);border:1px solid var(--line);border-radius:14px}.progress-row{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}.track{height:7px;background:var(--line);border-radius:20px;overflow:hidden;margin-top:9px}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:20px;transition:width .25s}
+.main{min-width:0}.topbar{height:70px;position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,4vw,54px);gap:15px}.crumb{color:var(--muted);font-size:13px}.top-actions{display:flex;align-items:center;gap:9px}.icon-btn,.mobile-menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:8px 11px}.mobile-menu{display:none}.content{max-width:1200px;margin:auto;padding:36px clamp(18px,4vw,54px) 70px}.eyebrow{color:var(--blue);font-size:12px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.hero{display:grid;grid-template-columns:1.5fr .8fr;gap:24px;align-items:stretch;margin-bottom:28px}.hero-copy,.hero-card,.panel,.lesson-card,.project-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.hero-copy{padding:clamp(22px,4vw,38px);background:radial-gradient(circle at 90% 10%,#3776ab33,transparent 35%),var(--panel)}h1{font-size:clamp(30px,4vw,46px);line-height:1.12;letter-spacing:-.04em;margin:10px 0 14px}h2{font-size:25px;line-height:1.2;margin:0 0 12px;letter-spacing:-.025em}h3{font-size:18px;margin:0 0 8px}.lead{color:var(--muted);max-width:660px;font-size:16px}.primary,.secondary,.ghost{border-radius:10px;padding:10px 15px;font-weight:700;border:1px solid transparent}.primary{background:var(--blue);color:#071426}.secondary{background:var(--panel2);color:var(--text);border-color:var(--line)}.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.hero-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.hero-card{padding:22px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(145deg,#18385a,var(--panel));}.hero-card .python{font-size:42px}.hero-card strong{font-size:20px}.hero-card p{color:#b9cbe1;margin:5px 0 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.stat strong{display:block;font-size:24px}.stat span{color:var(--muted);font-size:12px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:30px 0 14px}.section-head p{margin:0;color:var(--muted);font-size:13px}.lesson-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.lesson-card{padding:17px;cursor:pointer;transition:transform .18s,border-color .18s}.lesson-card:hover{transform:translateY(-3px);border-color:var(--blue)}.lesson-card .num{font-size:11px;color:var(--blue);font-weight:800;letter-spacing:.1em}.lesson-card p{color:var(--muted);font-size:13px;margin:7px 0 12px}.card-bottom{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.pill{padding:3px 8px;border-radius:20px;background:var(--panel2);color:var(--muted);font-size:11px}.pill.done{color:var(--green)}.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);gap:16px;align-items:start}.panel{padding:20px}.lesson-body{color:var(--muted)}.lesson-body p{margin:9px 0}.lesson-body ul{padding-left:20px}.callout{background:var(--panel2);border-left:3px solid var(--yellow);border-radius:8px;padding:12px 14px;margin:15px 0;color:var(--text)}.code-wrap{background:#09111d;border:1px solid #263750;border-radius:12px;overflow:hidden}.code-head{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#111c2e;color:#a9bad0;font-size:12px}.code-head button{background:#24354d;border:0;color:#fff;border-radius:7px;padding:5px 9px}.editor{width:100%;min-height:210px;resize:vertical;border:0;outline:0;background:#09111d;color:#e7edf7;padding:16px;font:13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;white-space:pre}.runbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px}.run-status{color:var(--muted);font-size:12px}.output{margin-top:13px;background:#09111d;color:#d6e2f1;border:1px solid #263750;border-radius:10px;min-height:95px;padding:12px;font:12px/1.6 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.output.error{color:#ff9999}.quiz-options{display:grid;gap:8px;margin:14px 0}.quiz-option{padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--text);text-align:left}.quiz-option.selected{border-color:var(--blue);background:color-mix(in srgb,var(--blue) 12%,var(--panel2))}.feedback{padding:10px 12px;border-radius:9px;margin:10px 0;font-size:13px}.feedback.good{background:#0d382d;color:#8be4c3}.feedback.bad{background:#421f28;color:#ffb1b1}.complete-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:15px;border-top:1px solid var(--line)}.search{width:min(280px,40vw);background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:9px 12px}.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.project-card{padding:17px}.project-card p{font-size:13px;color:var(--muted)}.project-card .level{font-size:11px;color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.1em}.empty{color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--line);border-radius:12px}.footer{color:var(--muted);font-size:12px;margin-top:42px;text-align:center}.hidden{display:none!important}
+@media(max-width:1000px){.lesson-grid,.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr .7fr}}
+@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{position:fixed;z-index:20;left:-290px;width:270px;transition:left .2s;box-shadow:var(--shadow)}.sidebar.open{left:0}.mobile-menu{display:block}.hero{grid-template-columns:1fr}.hero-card{min-height:150px}.workspace{grid-template-columns:1fr}.lesson-grid,.project-grid{grid-template-columns:1fr 1fr}.content{padding-top:24px}.topbar{padding:0 16px}}
+@media(max-width:480px){.lesson-grid,.project-grid,.stats{grid-template-columns:1fr}.topbar{height:62px}.search{width:100%;max-width:170px}.hero-copy{padding:22px}.hero-card{display:none}.complete-row{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
 <body>
-<div class="progress" id="progressBar"></div>
-<div class="presentation" id="presentation">
-    <!-- Slide 1: Title -->
-    <div class="slide slide-title active">
-        <svg class="logo" viewBox="0 0 64 64"><defs><linearGradient id="pyblue" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#5A9FD4"/><stop offset="100%" style="stop-color:#306998"/></linearGradient><linearGradient id="pyyellow" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFD43B"/><stop offset="100%" style="stop-color:#FFE873"/></linearGradient></defs><path d="M31.9 2c-15.9.3-17.8 6.9-17.8 6.9v7.1h18v2H11.5S2 16.5 2 32.4s8.3 15.3 8.3 15.3h5v-7.3s-.3-8.3 8.2-8.3h14.1s7.9.1 7.9-7.7V10.6S46.8 2 31.9 2zm-9.9 5c1.4 0 2.5 1.1 2.5 2.5S23.4 12 22 12s-2.5-1.1-2.5-2.5S20.6 7 22 7z" fill="url(#pyblue)"/><path d="M32.1 62c15.9-.3 17.8-6.9 17.8-6.9v-7.1h-18v-2h20.6S62 47.5 62 31.6s-8.3-15.3-8.3-15.3h-5v7.3s.3 8.3-8.2 8.3H26.4s-7.9-.1-7.9 7.7v13.8S17.2 62 32.1 62zm9.9-5c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5z" fill="url(#pyyellow)"/></svg>
-        <h1>🐍 Mastering Python Fundamentals</h1>
-        <p style="font-size:clamp(1em,3.5vw,1.4em);margin-top:15px">A Complete Guide to Python Programming</p>
-        <p style="margin-top:20px;font-size:clamp(0.9em,2.6vw,1.1em);color:#FFD43B">Including OOP, File Handling & Best Practices</p>
-    </div>
-
-    <!-- Slide 2: What is Python -->
-    <div class="slide">
-        <h2>📌 What is Python?</h2>
-        <div class="two-col">
-            <div>
-                <p><strong>Python</strong> is a high-level, interpreted language known for <strong>simplicity</strong> and <strong>readability</strong>.</p>
-                <ul>
-                    <li>Created by Guido van Rossum (1991)</li>
-                    <li>Easy to learn syntax</li>
-                    <li>Versatile: web, data, AI, automation</li>
-                    <li>Large standard library</li>
-                </ul>
-            </div>
-            <div class="box">
-                <h3>🎯 Python Use Cases</h3>
-                <p>🌐 Web Development (Django, Flask)</p>
-                <p>📊 Data Science (Pandas, NumPy)</p>
-                <p>🤖 AI/ML (TensorFlow, PyTorch)</p>
-                <p>🔧 Automation & Scripting</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 3: Python vs Others -->
-    <div class="slide">
-        <h2>⚔️ Python vs Other Languages</h2>
-        <div class="table-wrap">
-        <table>
-            <tr><th>Feature</th><th>Python 🐍</th><th>JavaScript</th><th>Java</th><th>C++</th></tr>
-            <tr><td>Syntax</td><td>Very Simple</td><td>Moderate</td><td>Verbose</td><td>Complex</td></tr>
-            <tr><td>Typing</td><td>Dynamic</td><td>Dynamic</td><td>Static</td><td>Static</td></tr>
-            <tr><td>Speed</td><td>Slower</td><td>Fast (V8)</td><td>Fast</td><td>Very Fast</td></tr>
-            <tr><td>Use Case</td><td>AI, Data, Web</td><td>Web, Mobile</td><td>Enterprise</td><td>Systems</td></tr>
-            <tr><td>Learning</td><td>⭐ Easy</td><td>⭐⭐ Medium</td><td>⭐⭐⭐ Hard</td><td>⭐⭐⭐⭐</td></tr>
-        </table>
-        </div>
-        <div class="box box-yellow">
-            <p>💡 Python's philosophy: <em>"Simple is better than complex"</em> - The Zen of Python</p>
-        </div>
-    </div>
-
-    <!-- Slide 4: How to Run -->
-    <div class="slide">
-        <h2>🚀 How to Run Python</h2>
-        <div class="grid-3">
-            <div class="card"><h4>Interactive Shell</h4><p>Type <code>python3</code> in terminal</p></div>
-            <div class="card"><h4>Script File</h4><p>Run <code>python main.py</code></p></div>
-            <div class="card"><h4>IDE/Editor</h4><p>VS Code, PyCharm, Jupyter</p></div>
-        </div>
-        <pre><code><span class="comment"># Your first Python program</span>
-<span class="builtin">print</span>(<span class="string">"Hello, World!"</span>)
-
-<span class="comment"># Run in terminal: python main.py</span>
-<span class="comment"># Note: "main" is just a convention - name the file whatever you like (e.g. hello.py)</span>
-<span class="comment"># Output: Hello, World!</span></code></pre>
-    </div>
-
-    <!-- Slide 5: Variables -->
-    <div class="slide">
-        <h2>🧺 Variables - Storing Values</h2>
-        <pre><code><span class="comment"># No need to declare types - Python infers them!</span>
-name = <span class="string">"Alex"</span>              <span class="comment"># String</span>
-age = <span class="number">25</span>                    <span class="comment"># Integer</span>
-height = <span class="number">1.75</span>               <span class="comment"># Float</span>
-is_student = <span class="keyword">True</span>           <span class="comment"># Boolean</span>
-skills = [<span class="string">"Python"</span>, <span class="string">"JS"</span>]   <span class="comment"># List</span>
-person = {<span class="string">"name"</span>: <span class="string">"Jo"</span>}     <span class="comment"># Dictionary</span>
-
-<span class="comment"># Multiple assignment</span>
-x, y, z = <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>
-a = b = c = <span class="number">0</span></code></pre>
-        <div class="box">
-            <p><strong>Naming Rules:</strong> Start with letter or _ • Case-sensitive • Use snake_case</p>
-        </div>
-    </div>
-
-    <!-- Slide 6: Data Types -->
-    <div class="slide">
-        <h2>📢 Data Types</h2>
-        <div class="table-wrap">
-        <table>
-            <tr><th>Type</th><th>Example</th><th>Description</th></tr>
-            <tr><td><strong>str</strong></td><td><code>"Hello"</code></td><td>Text string</td></tr>
-            <tr><td><strong>int</strong></td><td><code>42</code></td><td>Integer number</td></tr>
-            <tr><td><strong>float</strong></td><td><code>3.14</code></td><td>Decimal number</td></tr>
-            <tr><td><strong>bool</strong></td><td><code>True / False</code></td><td>Boolean value</td></tr>
-            <tr><td><strong>list</strong></td><td><code>[1, 2, 3]</code></td><td>Ordered, mutable</td></tr>
-            <tr><td><strong>tuple</strong></td><td><code>(1, 2, 3)</code></td><td>Ordered, immutable</td></tr>
-            <tr><td><strong>dict</strong></td><td><code>{"a": 1}</code></td><td>Key-value pairs</td></tr>
-            <tr><td><strong>set</strong></td><td><code>{1, 2, 3}</code></td><td>Unique values</td></tr>
-            <tr><td><strong>None</strong></td><td><code>None</code></td><td>Null/empty value</td></tr>
-        </table>
-        </div>
-    </div>
-
-    <!-- Slide 7: Type Conversion -->
-    <div class="slide">
-        <h2>🔄 Type Conversion</h2>
-        <pre><code><span class="comment"># String to Number</span>
-num_str = <span class="string">"42"</span>
-num_int = <span class="builtin">int</span>(num_str)        <span class="comment"># 42</span>
-num_float = <span class="builtin">float</span>(num_str)    <span class="comment"># 42.0</span>
-
-<span class="comment"># Number to String</span>
-age = <span class="number">25</span>
-age_str = <span class="builtin">str</span>(age)            <span class="comment"># "25"</span>
-
-<span class="comment"># List conversions</span>
-my_list = <span class="builtin">list</span>(<span class="string">"hello"</span>)      <span class="comment"># ['h','e','l','l','o']</span>
-my_tuple = <span class="builtin">tuple</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])    <span class="comment"># (1, 2, 3)</span>
-my_set = <span class="builtin">set</span>([<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>])      <span class="comment"># {1, 2}</span></code></pre>
-        <div class="box box-yellow">
-            <p>⚠️ <code>int("3.14")</code> raises error! Use <code>int(float("3.14"))</code> instead</p>
-        </div>
-    </div>
-
-    <!-- Slide 8: Operators -->
-    <div class="slide">
-        <h2>➕ Operators</h2>
-        <div class="two-col">
-            <div>
-                <h3>Arithmetic</h3>
-                <pre><code><span class="number">5</span> + <span class="number">3</span>    <span class="comment"># 8 add</span>
-<span class="number">10</span> - <span class="number">2</span>   <span class="comment"># 8 subtract</span>
-<span class="number">2</span> * <span class="number">4</span>    <span class="comment"># 8 multiply</span>
-<span class="number">16</span> / <span class="number">2</span>   <span class="comment"># 8.0 divide</span>
-<span class="number">17</span> // <span class="number">2</span>  <span class="comment"># 8 floor div</span>
-<span class="number">2</span> ** <span class="number">3</span>   <span class="comment"># 8 power</span>
-<span class="number">10</span> % <span class="number">3</span>   <span class="comment"># 1 modulo</span></code></pre>
-            </div>
-            <div>
-                <h3>Comparison</h3>
-                <pre><code><span class="number">5</span> == <span class="number">5</span>   <span class="comment"># True equal</span>
-<span class="number">5</span> != <span class="number">3</span>   <span class="comment"># True not equal</span>
-<span class="number">5</span> > <span class="number">3</span>    <span class="comment"># True greater</span>
-<span class="number">5</span> < <span class="number">3</span>    <span class="comment"># False less</span>
-<span class="number">5</span> >= <span class="number">5</span>   <span class="comment"># True</span>
-<span class="number">5</span> <= <span class="number">3</span>   <span class="comment"># False</span></code></pre>
-            </div>
-        </div>
-        <h3>Logical Operators</h3>
-        <pre style="font-size:clamp(1em,2.6vw,1.4em);padding:clamp(20px,4vw,32px)"><code style="font-size:1.15em;line-height:2"><span class="keyword">True</span> <span class="keyword">and</span> <span class="keyword">True</span>  <span class="comment"># True</span>
-<span class="keyword">True</span> <span class="keyword">or</span> <span class="keyword">False</span>  <span class="comment"># True</span>
-<span class="keyword">not</span> <span class="keyword">True</span>       <span class="comment"># False</span></code></pre>
-    </div>
-
-    <!-- Slide 9: Strings -->
-    <div class="slide">
-        <h2>📝 Strings</h2>
-        <pre><code>s = <span class="string">"Hello, Python!"</span>
-<span class="builtin">len</span>(s)                    <span class="comment"># 14</span>
-s[<span class="number">0</span>]                      <span class="comment"># 'H'</span>
-s[-<span class="number">1</span>]                     <span class="comment"># '!'</span>
-s[<span class="number">0</span>:<span class="number">5</span>]                    <span class="comment"># 'Hello'</span>
-s.<span class="function">upper</span>()                 <span class="comment"># 'HELLO, PYTHON!'</span>
-s.<span class="function">lower</span>()                 <span class="comment"># 'hello, python!'</span>
-s.<span class="function">replace</span>(<span class="string">"Hello"</span>, <span class="string">"Hi"</span>) <span class="comment"># 'Hi, Python!'</span>
-s.<span class="function">split</span>(<span class="string">", "</span>)             <span class="comment"># ['Hello', 'Python!']</span></code></pre>
-        <h3>f-Strings (Formatted Strings)</h3>
-        <pre><code>name = <span class="string">"Alice"</span>
-age = <span class="number">30</span>
-<span class="builtin">print</span>(<span class="string">f"My name is {name} and I'm {age} years old"</span>)</code></pre>
-    </div>
-
-    <!-- Slide 10: Conditionals -->
-    <div class="slide">
-        <h2>⚖️ Conditional Statements</h2>
-        <div class="two-col">
-            <div>
-                <h3>if / elif / else</h3>
-                <pre><code>score = <span class="number">85</span>
-
-<span class="keyword">if</span> score >= <span class="number">90</span>:
-    <span class="builtin">print</span>(<span class="string">"A"</span>)
-<span class="keyword">elif</span> score >= <span class="number">80</span>:
-    <span class="builtin">print</span>(<span class="string">"B"</span>)
-<span class="keyword">else</span>:
-    <span class="builtin">print</span>(<span class="string">"C"</span>)</code></pre>
-            </div>
-            <div>
-                <h3>Ternary Operator</h3>
-                <pre><code>age = <span class="number">18</span>
-status = <span class="string">"Adult"</span> <span class="keyword">if</span> age >= <span class="number">18</span> <span class="keyword">else</span> <span class="string">"Minor"</span></code></pre>
-                <div class="box">
-                    <p>💡 Python uses <strong>indentation</strong> (4 spaces) instead of braces!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 11: Loops -->
-    <div class="slide">
-        <h2>🔁 Loops</h2>
-        <div class="two-col">
-            <div>
-                <h3>for Loop</h3>
-                <pre><code><span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">5</span>):
-    <span class="builtin">print</span>(i)  <span class="comment"># 0,1,2,3,4</span>
-
-fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>]
-<span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:
-    <span class="builtin">print</span>(fruit)</code></pre>
-            </div>
-            <div>
-                <h3>while Loop</h3>
-                <pre><code>i = <span class="number">0</span>
-<span class="keyword">while</span> i < <span class="number">5</span>:
-    <span class="builtin">print</span>(i)
-    i += <span class="number">1</span></code></pre>
-            </div>
-        </div>
-        <h3>List Comprehension</h3>
-        <pre style="font-size:clamp(1em,2.6vw,1.4em);padding:clamp(20px,4vw,32px)"><code style="font-size:1.15em;line-height:2">squares = [x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">5</span>)]           <span class="comment"># [0, 1, 4, 9, 16]</span>
-evens = [x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">10</span>) <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>]  <span class="comment"># [0, 2, 4, 6, 8]</span></code></pre>
-    </div>
-
-    <!-- Slide 12: Functions -->
-    <div class="slide">
-        <h2>🧩 Functions</h2>
-        <pre><code><span class="comment"># Basic function</span>
-<span class="keyword">def</span> <span class="function">greet</span>(name):
-    <span class="keyword">return</span> <span class="string">f"Hello, {name}!"</span>
-
-<span class="comment"># Default parameters</span>
-<span class="keyword">def</span> <span class="function">greet</span>(name=<span class="string">"Guest"</span>):
-    <span class="keyword">return</span> <span class="string">f"Hello, {name}!"</span>
-
-<span class="comment"># *args and **kwargs</span>
-<span class="keyword">def</span> <span class="function">flex</span>(*args, **kwargs):
-    <span class="builtin">print</span>(args)    <span class="comment"># tuple of positional args</span>
-    <span class="builtin">print</span>(kwargs)  <span class="comment"># dict of keyword args</span>
-
-<span class="comment"># Lambda function</span>
-square = <span class="keyword">lambda</span> x: x ** <span class="number">2</span></code></pre>
-    </div>
-
-    <!-- Slide 13: Lists -->
-    <div class="slide">
-        <h2>📦 Lists</h2>
-        <pre><code>fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>]
-fruits[<span class="number">0</span>]       <span class="comment"># "apple"</span>
-fruits[-<span class="number">1</span>]      <span class="comment"># "cherry"</span>
-<span class="builtin">len</span>(fruits)     <span class="comment"># 3</span></code></pre>
-        <h3>List Methods</h3>
-        <div class="table-wrap">
-        <table>
-            <tr><th>Method</th><th>Description</th><th>Example</th></tr>
-            <tr><td><code>append()</code></td><td>Add to end</td><td><code>fruits.append("mango")</code></td></tr>
-            <tr><td><code>insert()</code></td><td>Add at index</td><td><code>fruits.insert(1, "kiwi")</code></td></tr>
-            <tr><td><code>remove()</code></td><td>Remove by value</td><td><code>fruits.remove("banana")</code></td></tr>
-            <tr><td><code>pop()</code></td><td>Remove & return</td><td><code>fruits.pop()</code></td></tr>
-            <tr><td><code>sort()</code></td><td>Sort in place</td><td><code>fruits.sort()</code></td></tr>
-        </table>
-        </div>
-    </div>
-
-    <!-- Slide 14: Dictionaries -->
-    <div class="slide">
-        <h2>📚 Dictionaries</h2>
-        <pre><code>student = {
-    <span class="string">"name"</span>: <span class="string">"Alice"</span>,
-    <span class="string">"age"</span>: <span class="number">20</span>,
-    <span class="string">"grades"</span>: [<span class="number">85</span>, <span class="number">90</span>, <span class="number">78</span>]
-}
-
-student[<span class="string">"name"</span>]            <span class="comment"># "Alice"</span>
-student.<span class="function">get</span>(<span class="string">"age"</span>)         <span class="comment"># 20</span>
-student.<span class="function">get</span>(<span class="string">"gpa"</span>, <span class="number">0</span>)      <span class="comment"># 0 (default)</span>
-student[<span class="string">"school"</span>] = <span class="string">"MIT"</span>  <span class="comment"># Add new key</span>
-
-<span class="keyword">for</span> key, val <span class="keyword">in</span> student.<span class="function">items</span>():
-    <span class="builtin">print</span>(<span class="string">f"{key}: {val}"</span>)</code></pre>
-    </div>
-
-    <!-- Slide 15: Exception Handling -->
-    <div class="slide">
-        <h2>⚠️ Exception Handling</h2>
-        <pre><code><span class="keyword">try</span>:
-    num = <span class="builtin">int</span>(<span class="builtin">input</span>(<span class="string">"Enter a number: "</span>))
-    result = <span class="number">100</span> / num
-    <span class="builtin">print</span>(<span class="string">f"Result: {result}"</span>)
-<span class="keyword">except</span> <span class="builtin">ValueError</span>:
-    <span class="builtin">print</span>(<span class="string">"Invalid input! Please enter a number."</span>)
-<span class="keyword">except</span> <span class="builtin">ZeroDivisionError</span>:
-    <span class="builtin">print</span>(<span class="string">"Cannot divide by zero!"</span>)
-<span class="keyword">except</span> <span class="builtin">Exception</span> <span class="keyword">as</span> e:
-    <span class="builtin">print</span>(<span class="string">f"An error occurred: {e}"</span>)
-<span class="keyword">finally</span>:
-    <span class="builtin">print</span>(<span class="string">"Execution completed."</span>)</code></pre>
-    </div>
-
-    <!-- Slide 16: File Handling -->
-    <div class="slide">
-        <h2>📁 File Handling</h2>
-        <div class="two-col">
-            <div>
-                <h3>Writing to File</h3>
-                <pre><code><span class="comment"># Write mode</span>
-<span class="keyword">with</span> <span class="builtin">open</span>(<span class="string">"file.txt"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> f:
-    f.<span class="function">write</span>(<span class="string">"Hello World"</span>)
-
-<span class="comment"># Append mode</span>
-<span class="keyword">with</span> <span class="builtin">open</span>(<span class="string">"file.txt"</span>, <span class="string">"a"</span>) <span class="keyword">as</span> f:
-    f.<span class="function">write</span>(<span class="string">"\nNew line"</span>)</code></pre>
-            </div>
-            <div>
-                <h3>Reading from File</h3>
-                <pre><code><span class="comment"># Read all</span>
-<span class="keyword">with</span> <span class="builtin">open</span>(<span class="string">"file.txt"</span>, <span class="string">"r"</span>) <span class="keyword">as</span> f:
-    content = f.<span class="function">read</span>()
-
-<span class="comment"># Read lines</span>
-<span class="keyword">with</span> <span class="builtin">open</span>(<span class="string">"file.txt"</span>, <span class="string">"r"</span>) <span class="keyword">as</span> f:
-    <span class="keyword">for</span> line <span class="keyword">in</span> f:
-        <span class="builtin">print</span>(line)</code></pre>
-            </div>
-        </div>
-        <div class="box box-yellow">
-            <p>💡 Using <code>with</code> automatically closes the file!</p>
-        </div>
-    </div>
-
-    <!-- Slide 17: OOP - Classes -->
-    <div class="slide slide-oop">
-        <h2>🎓 Object-Oriented Programming - Classes</h2>
-        <pre><code><span class="keyword">class</span> <span class="function">Person</span>:
-    <span class="comment"># Constructor</span>
-    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, name, age):
-        <span class="keyword">self</span>.name = name
-        <span class="keyword">self</span>.age = age
-    
-    <span class="comment"># Method</span>
-    <span class="keyword">def</span> <span class="function">greet</span>(<span class="keyword">self</span>):
-        <span class="keyword">return</span> <span class="string">f"Hi, I'm {<span class="keyword">self</span>.name} and I'm {<span class="keyword">self</span>.age} years old"</span>
-
-<span class="comment"># Create object</span>
-person1 = <span class="function">Person</span>(<span class="string">"Alice"</span>, <span class="number">25</span>)
-<span class="builtin">print</span>(person1.<span class="function">greet</span>())  <span class="comment"># Hi, I'm Alice and I'm 25 years old</span></code></pre>
-    </div>
-
-    <!-- Slide 18: OOP - Inheritance -->
-    <div class="slide slide-oop">
-        <h2>👨‍👩‍👧 OOP - Inheritance</h2>
-        <pre><code><span class="keyword">class</span> <span class="function">Animal</span>:
-    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, name):
-        <span class="keyword">self</span>.name = name
-    
-    <span class="keyword">def</span> <span class="function">speak</span>(<span class="keyword">self</span>):
-        <span class="keyword">return</span> <span class="string">"Some sound"</span>
-
-<span class="keyword">class</span> <span class="function">Dog</span>(<span class="function">Animal</span>):
-    <span class="keyword">def</span> <span class="function">speak</span>(<span class="keyword">self</span>):
-        <span class="keyword">return</span> <span class="string">f"{<span class="keyword">self</span>.name} says Woof!"</span>
-
-<span class="keyword">class</span> <span class="function">Cat</span>(<span class="function">Animal</span>):
-    <span class="keyword">def</span> <span class="function">speak</span>(<span class="keyword">self</span>):
-        <span class="keyword">return</span> <span class="string">f"{<span class="keyword">self</span>.name} says Meow!"</span>
-
-dog = <span class="function">Dog</span>(<span class="string">"Buddy"</span>)
-cat = <span class="function">Cat</span>(<span class="string">"Whiskers"</span>)
-<span class="builtin">print</span>(dog.<span class="function">speak</span>())  <span class="comment"># Buddy says Woof!</span>
-<span class="builtin">print</span>(cat.<span class="function">speak</span>())  <span class="comment"># Whiskers says Meow!</span></code></pre>
-    </div>
-
-    <!-- Slide 19: Modules & Imports -->
-    <div class="slide">
-        <h2>📦 Modules & Imports</h2>
-        <pre><code><span class="comment"># Import entire module</span>
-<span class="keyword">import</span> math
-<span class="builtin">print</span>(math.sqrt(<span class="number">16</span>))  <span class="comment"># 4.0</span>
-
-<span class="comment"># Import specific functions</span>
-<span class="keyword">from</span> math <span class="keyword">import</span> sqrt, pi
-<span class="builtin">print</span>(sqrt(<span class="number">25</span>))      <span class="comment"># 5.0</span>
-<span class="builtin">print</span>(pi)           <span class="comment"># 3.14159...</span>
-
-<span class="comment"># Import with alias</span>
-<span class="keyword">import</span> numpy <span class="keyword">as</span> np
-<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
-
-<span class="comment"># Import all (not recommended)</span>
-<span class="keyword">from</span> math <span class="keyword">import</span> *</code></pre>
-        <div class="box box-yellow">
-            <p>⚠️ Avoid <code>from module import *</code> as it can cause naming conflicts!</p>
-        </div>
-    </div>
-
-    <!-- Slide 20: Best Practices -->
-    <div class="slide slide-tips">
-        <h2>✨ Python Best Practices</h2>
-        <div class="grid-3">
-            <div class="box">
-                <h4>📝 Naming</h4>
-                <p>• Variables: <code>my_variable</code></p>
-                <p>• Functions: <code>calculate_sum()</code></p>
-                <p>• Classes: <code>MyClass</code></p>
-                <p>• Constants: <code>MAX_SIZE</code></p>
-            </div>
-            <div class="box">
-                <h4>🎨 Code Style</h4>
-                <p>• Use 4 spaces for indentation</p>
-                <p>• Max line length: 79 chars</p>
-                <p>• Follow PEP 8 guidelines</p>
-                <p>• Add docstrings to functions</p>
-            </div>
-            <div class="box">
-                <h4>🛡️ Good Habits</h4>
-                <p>• Use meaningful names</p>
-                <p>• Handle exceptions properly</p>
-                <p>• Write comments for complex code</p>
-                <p>• Test your code regularly</p>
-            </div>
-        </div>
-        <div class="box" style="margin-top:20px">
-            <h3>The Zen of Python (PEP 20)</h3>
-            <p><em>Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex.</em></p>
-        </div>
-    </div>
-
-    <!-- Slide 21: Common Built-in Functions -->
-    <div class="slide">
-        <h2>🔧 Common Built-in Functions</h2>
-        <div class="table-wrap">
-        <table>
-            <tr><th>Function</th><th>Description</th><th>Example</th></tr>
-            <tr><td><code>len()</code></td><td>Get length</td><td><code>len([1,2,3])</code> → 3</td></tr>
-            <tr><td><code>type()</code></td><td>Get type</td><td><code>type(42)</code> → int</td></tr>
-            <tr><td><code>range()</code></td><td>Generate sequence</td><td><code>range(5)</code> → 0,1,2,3,4</td></tr>
-            <tr><td><code>sum()</code></td><td>Sum of items</td><td><code>sum([1,2,3])</code> → 6</td></tr>
-            <tr><td><code>max()</code></td><td>Maximum value</td><td><code>max([1,5,3])</code> → 5</td></tr>
-            <tr><td><code>min()</code></td><td>Minimum value</td><td><code>min([1,5,3])</code> → 1</td></tr>
-            <tr><td><code>sorted()</code></td><td>Return sorted list</td><td><code>sorted([3,1,2])</code> → [1,2,3]</td></tr>
-            <tr><td><code>enumerate()</code></td><td>Index & value pairs</td><td><code>enumerate(['a','b'])</code></td></tr>
-            <tr><td><code>zip()</code></td><td>Combine iterables</td><td><code>zip([1,2],['a','b'])</code></td></tr>
-        </table>
-        </div>
-    </div>
-
-    <!-- Slide 22: References -->
-    <div class="slide">
-        <h2><span class="ref-heading"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="#306998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="#306998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> References & Learning Resources</span></h2>
-        <div class="two-col">
-            <div class="box">
-                <h3 class="ref-heading"><svg viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg> Video Playlists</h3>
-                <div class="ref-list">
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PLWKjhJtqVAbnqBxcdjVGgT3uVR10bzTEB&si=dm9FnwT804NqSn__" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU&si=h8guUAiJrlxUjyB-" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PLZPZq0r_RZOOkUQbat8LyQii36cJf2SWT&si=WXrT5Phk-4WutHFD" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PL0Zuz27SZ-6MQri81d012LwP5jvFZ_scc&si=JYV4ybuDdCWDxr9Z" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PL0-84-yl1fUnRuXGFe_F7qSH1LEnn9LkW&si=X4CjYjXqsrsBigTR" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 28 20" xmlns="http://www.w3.org/2000/svg"><path d="M27.4 3.1C27.1 1.9 26.1 1 24.9.7 22.7.1 14 .1 14 .1s-8.7 0-10.9.6C1.9 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.3 2.1 2.5 2.4C5.3 19.9 14 19.9 14 19.9s8.7 0 10.9-.6c1.2-.3 2.2-1.2 2.5-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z" fill="#FF0000"/><path d="M11.2 14.2 18.5 10l-7.3-4.2v8.4z" fill="#fff"/></svg></span><a href="https://youtube.com/playlist?list=PL7yh-TELLS1FuqLSjl5bgiQIEH25VEmIc&si=UdDRRyuWitehmOrG" target="_blank" rel="noopener">YouTube Playlist</a></div>
-                </div>
-            </div>
-            <div class="box">
-                <h3 class="ref-heading"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="#306998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="#306998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Written Resources</h3>
-                <div class="ref-list">
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#306998" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#306998" stroke-width="2"/></svg></span><a href="https://www.w3schools.com/python/default.asp" target="_blank" rel="noopener">W3Schools - Python Tutorial</a></div>
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#306998" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#306998" stroke-width="2"/></svg></span><a href="https://www.docstring.fr/parcours/les-bases-de-python/" target="_blank" rel="noopener">Docstring.fr - Les bases de Python</a></div>
-                </div>
-                <h3 class="ref-heading" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" stroke="#306998" stroke-width="2"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="#306998" stroke-width="2" stroke-linecap="round"/></svg> Author</h3>
-                <div class="ref-list">
-                    <div class="ref-item"><span class="ref-tag"><svg class="ref-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#306998" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#306998" stroke-width="2"/></svg></span><a href="https://www.issikaaymeric.online/" target="_blank" rel="noopener">issikaaymeric.online</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 23: Thank You -->
-    <div class="slide slide-title">
-        <svg class="logo" viewBox="0 0 64 64"><defs><linearGradient id="pyblue2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#5A9FD4"/><stop offset="100%" style="stop-color:#306998"/></linearGradient><linearGradient id="pyyellow2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#FFD43B"/><stop offset="100%" style="stop-color:#FFE873"/></linearGradient></defs><path d="M31.9 2c-15.9.3-17.8 6.9-17.8 6.9v7.1h18v2H11.5S2 16.5 2 32.4s8.3 15.3 8.3 15.3h5v-7.3s-.3-8.3 8.2-8.3h14.1s7.9.1 7.9-7.7V10.6S46.8 2 31.9 2zm-9.9 5c1.4 0 2.5 1.1 2.5 2.5S23.4 12 22 12s-2.5-1.1-2.5-2.5S20.6 7 22 7z" fill="url(#pyblue2)"/><path d="M32.1 62c15.9-.3 17.8-6.9 17.8-6.9v-7.1h-18v-2h20.6S62 47.5 62 31.6s-8.3-15.3-8.3-15.3h-5v7.3s.3 8.3-8.2 8.3H26.4s-7.9-.1-7.9 7.7v13.8S17.2 62 32.1 62zm9.9-5c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5z" fill="url(#pyyellow2)"/></svg>
-        <h1>🎉 Thank You!</h1>
-        <p style="font-size:clamp(1em,3.5vw,1.4em);margin-top:20px">Keep Coding with Python 🐍</p>
-        <p style="margin-top:20px;font-size:clamp(0.9em,2.6vw,1.1em);color:#FFD43B">Practice makes perfect!</p>
-        <div style="margin-top:40px;font-size:clamp(0.8em,2.2vw,1em);color:#fff">
-            <p>📚 Resources: python.org | docs.python.org</p>
-            <p>💻 Practice: leetcode.com | hackerrank.com</p>
-        </div>
-    </div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">Py</div><div><strong>Python Path</strong><small>Learn by building</small></div></div>
+  <div>
+    <div class="nav-label">Workspace</div>
+    <nav class="nav-list">
+      <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span>Overview</button>
+      <button class="nav-item" data-view="lessons"><span class="nav-icon">▤</span>Learning path</button>
+      <button class="nav-item" data-view="playground"><span class="nav-icon">⌘</span>Python playground</button>
+      <button class="nav-item" data-view="projects"><span class="nav-icon">◇</span>Projects</button>
+    </nav>
+  </div>
+  <div>
+    <div class="nav-label">Your learning</div>
+    <nav class="nav-list">
+      <button class="nav-item" data-view="progress"><span class="nav-icon">▥</span>My progress</button>
+      <button class="nav-item" id="resetProgress"><span class="nav-icon">↺</span>Reset progress</button>
+    </nav>
+  </div>
+  <div class="side-progress"><div class="progress-row"><span>Course progress</span><strong id="sidePercent">0%</strong></div><div class="track"><div class="fill" id="sideFill"></div></div><small id="sideCount" style="display:block;color:var(--muted);margin-top:8px">0 of 8 lessons completed</small></div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn" aria-label="Open navigation">☰</button><span class="crumb" id="breadcrumb">Learning space / Overview</span></div>
+  <div class="top-actions"><input class="search" id="searchInput" placeholder="Search lessons…" aria-label="Search lessons"><button class="icon-btn" id="themeBtn" aria-label="Toggle theme">☼</button></div>
+</header>
+<div class="content" id="viewRoot"></div>
+</main>
 </div>
-
-<div class="counter">
-    <span id="currentSlide">1</span> / <span id="totalSlides">23</span>
-</div>
-
-<div class="nav">
-    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" aria-label="Previous slide">← Prev</button>
-    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)" aria-label="Next slide">Next →</button>
-</div>
-
-<div class="swipe-hint" id="swipeHint">Swipe to navigate</div>
-
-<footer>&copy; 2024 Issika Aymeric Kouamé</footer>
-
 <script>
-let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
-const totalSlides = slides.length;
-const progressBar = document.getElementById('progressBar');
-
-document.getElementById('totalSlides').textContent = totalSlides;
-
-function showSlide(n) {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (n + totalSlides) % totalSlides;
-    slides[currentSlide].classList.add('active');
-    slides[currentSlide].scrollTop = 0;
-
-    document.getElementById('currentSlide').textContent = currentSlide + 1;
-    document.getElementById('prevBtn').disabled = currentSlide === 0;
-    document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
-    progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
-}
-
-function changeSlide(direction) {
-    showSlide(currentSlide + direction);
-}
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') changeSlide(-1);
-    if (e.key === 'ArrowRight') changeSlide(1);
-});
-
-// Touch swipe support for mobile
-let touchStartX = 0;
-let touchStartY = 0;
-const presentation = document.getElementById('presentation');
-
-presentation.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-}, { passive: true });
-
-presentation.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const touchEndY = e.changedTouches[0].screenY;
-    const dx = touchEndX - touchStartX;
-    const dy = touchEndY - touchStartY;
-
-    // Only treat as a swipe if horizontal movement dominates (avoids hijacking vertical scroll)
-    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-        if (dx < 0) changeSlide(1);
-        else changeSlide(-1);
-    }
-}, { passive: true });
-
-// Briefly reveal the swipe hint on first touch device load
-if ('ontouchstart' in window) {
-    const hint = document.getElementById('swipeHint');
-    setTimeout(() => hint.classList.add('show'), 600);
-    setTimeout(() => hint.classList.remove('show'), 3200);
-}
-
-showSlide(0);
+const lessons = [
+{id:"intro",title:"Getting started with Python",category:"Foundations",time:"8 min",description:"Understand Python, run your first program and read output.",body:`<p>Python is a readable, general-purpose programming language used for automation, web development, data analysis and artificial intelligence.</p><h3>Your first program</h3><p>The <code>print()</code> function displays information. Text values are written inside quotes.</p><div class="callout"><strong>Remember:</strong> Python executes instructions from top to bottom. Spelling, punctuation and indentation matter.</div><h3>Try changing the message</h3><p>Replace the example text with your name, then run the code.</p>`,code:'print("Hello, world!")\nprint("I am learning Python.")',quiz:{q:"Which function displays text in the Python console?",options:["show()","print()","writeLine()"],answer:1,why:"print() sends values to standard output."}},
+{id:"variables",title:"Variables and data types",category:"Foundations",time:"12 min",description:"Store information and understand Python's core types.",body:`<p>A variable is a name that refers to a value. Python determines the type at runtime, so you do not declare it in advance.</p><ul><li><code>str</code> — text, such as <code>"Abidjan"</code></li><li><code>int</code> — whole numbers, such as <code>22</code></li><li><code>float</code> — decimal numbers, such as <code>3.14</code></li><li><code>bool</code> — <code>True</code> or <code>False</code></li></ul><div class="callout">Use descriptive <code>snake_case</code> names such as <code>student_name</code>.</div><p>Use <code>type(value)</code> to inspect a value's type.</p>`,code:'student_name = "Alex"\nage = 22\ngpa = 3.8\nis_enrolled = True\n\nprint(student_name)\nprint(type(age))\nprint(type(gpa))',quiz:{q:"What is the type of 3.8?",options:["int","str","float"],answer:2,why:"A number with a decimal point is a float."}},
+{id:"operators",title:"Operators and expressions",category:"Foundations",time:"10 min",description:"Perform calculations and compare values.",body:`<p>Operators combine values into expressions.</p><ul><li>Arithmetic: <code>+ - * / // % **</code></li><li>Comparison: <code>== != > < >= <=</code></li><li>Logical: <code>and or not</code></li></ul><p>Notice the difference between <code>=</code> (assignment) and <code>==</code> (equality comparison).</p>`,code:'price = 1200\nquantity = 3\ntotal = price * quantity\n\nprint("Total:", total)\nprint(10 // 3)  # Floor division\nprint(10 % 3)   # Remainder',quiz:{q:"What does 17 % 5 return?",options:["3","2","3.4"],answer:1,why:"Modulo (%) returns the remainder. 17 divided by 5 leaves 2."}},
+{id:"conditions",title:"Conditions and decisions",category:"Control flow",time:"12 min",description:"Make your program choose what to do with if, elif and else.",body:`<p>Conditional statements run different blocks depending on whether an expression is true or false.</p><p>Python uses indentation to define each block. Use four spaces consistently.</p><div class="callout">An <code>if</code> can be followed by zero or more <code>elif</code> branches and an optional <code>else</code>.</div>`,code:'score = 78\n\nif score >= 80:\n    print("Excellent")\nelif score >= 50:\n    print("Pass")\nelse:\n    print("Keep practicing")',quiz:{q:"Which keyword handles the final alternative branch?",options:["otherwise","else","default"],answer:1,why:"else runs when none of the preceding if/elif conditions are true."}},
+{id:"loops",title:"Loops and iteration",category:"Control flow",time:"14 min",description:"Repeat work with for and while loops.",body:`<p>Loops repeat a block of code. Use <code>for</code> to iterate over a sequence and <code>while</code> to repeat while a condition remains true.</p><ul><li><code>range(5)</code> produces 0, 1, 2, 3, 4.</li><li><code>break</code> exits the loop.</li><li><code>continue</code> skips to the next iteration.</li></ul><p>Be careful that a while-loop condition eventually becomes false, otherwise it may never stop.</p>`,code:'total = 0\nfor number in range(1, 6):\n    total += number\n    print("Added:", number)\n\nprint("Sum:", total)',quiz:{q:"What values does range(1, 4) produce?",options:["1, 2, 3, 4","0, 1, 2, 3","1, 2, 3"],answer:2,why:"The start is included and the stop value (4) is excluded."}},
+{id:"functions",title:"Functions",category:"Reusable code",time:"15 min",description:"Organize logic into reusable blocks with parameters and return values.",body:`<p>Functions help you give a name to a task, reuse it and test it independently.</p><ul><li><strong>Parameter:</strong> a variable in the function definition.</li><li><strong>Argument:</strong> a value passed when calling the function.</li><li><strong>return:</strong> sends a result back to the caller.</li></ul><div class="callout">A function that reaches the end without a return statement returns <code>None</code>.</div>`,code:'def calculate_total(price, quantity=1):\n    """Return the total price."""\n    return price * quantity\n\nsubtotal = calculate_total(250, 3)\nprint(subtotal)',quiz:{q:"What does return do?",options:["Displays text","Sends a value back to the caller","Repeats a function"],answer:1,why:"return ends the function call and provides its result to the caller."}},
+{id:"collections",title:"Lists, tuples, sets and dictionaries",category:"Data structures",time:"16 min",description:"Choose the right collection for your data.",body:`<p>Python includes several useful built-in collections.</p><ul><li><strong>List:</strong> ordered and mutable — <code>[1, 2, 3]</code>.</li><li><strong>Tuple:</strong> ordered and immutable — <code>(1, 2, 3)</code>.</li><li><strong>Set:</strong> unique elements — <code>{1, 2, 3}</code>.</li><li><strong>Dictionary:</strong> key-value mapping — <code>{"name": "Ada"}</code>.</li></ul><p>Use dictionaries when you want to look up a value by a meaningful key.</p>`,code:'students = ["Ada", "Grace", "Linus"]\nstudents.append("Guido")\n\nprofile = {"name": "Ada", "language": "Python"}\nprint(students[0])\nprint(profile["language"])\nprint(len(set([1, 1, 2, 3])))',quiz:{q:"Which collection stores key-value pairs?",options:["List","Set","Dictionary"],answer:2,why:"A dictionary maps unique keys to values."}},
+{id:"exceptions",title:"Exceptions and files",category:"Reliable programs",time:"18 min",description:"Handle errors and work safely with text and JSON files.",body:`<p>Exceptions represent errors that occur while a program runs. Handle only the errors you can reasonably recover from.</p><p>Use <code>try</code> and <code>except</code>, and use <code>finally</code> for cleanup that must happen either way.</p><p>For files, prefer <code>with open(...)</code>: it closes the file automatically. In this browser playground, file access is virtual to the Python runtime rather than your computer's disk.</p>`,code:'raw_age = "22"\n\ntry:\n    age = int(raw_age)\n    print("Next year:", age + 1)\nexcept ValueError:\n    print("Please enter a whole number.")\n\nwith open("notes.txt", "w") as file:\n    file.write("Learning Python!")\n\nwith open("notes.txt", "r") as file:\n    print(file.read())',quiz:{q:"Why use with open(...) when working with files?",options:["It makes files public","It closes the file automatically","It encrypts the file"],answer:1,why:"The context manager closes the file even if an exception occurs."}}
+];
+const projects=[
+{title:"Personal profile card",level:"Beginner",desc:"Store your details in variables and print a neatly formatted profile.",tasks:["Create name, age and location variables.","Use an f-string to format the output.","Print each detail on a separate line."]},
+{title:"Number analysis tool",level:"Beginner",desc:"Analyze a list of numbers using loops, conditions and built-in functions.",tasks:["Ask for or define a list of numbers.","Calculate the sum and average.","Find the minimum, maximum and even numbers."]},
+{title:"Expense tracker",level:"Intermediate",desc:"Build a small command-line expense tracker using lists and dictionaries.",tasks:["Represent each expense with a dictionary.","Calculate total spending by category.","Handle invalid amounts with exceptions."]},
+{title:"Contact book",level:"Intermediate",desc:"Create a contact manager with reusable functions.",tasks:["Add and list contacts.","Search by name.","Update or delete a contact."]},
+{title:"CSV grade analyzer",level:"Advanced",desc:"Read structured records, calculate grades and summarize results.",tasks:["Load CSV data with Python's csv module.","Calculate class average and highest score.","Handle missing or malformed records."]},
+{title:"API data explorer",level:"Advanced",desc:"Fetch JSON data from a public API and transform it into a useful report.",tasks:["Understand JSON objects and arrays.","Parse a response using json.","Validate missing fields and handle errors."]}
+];
+let state=loadState(),currentLesson=lessons[0].id,selectedAnswer=null,quizFeedback=null,worker=null,runId=0,runTimer=null;
+function loadState(){try{return JSON.parse(localStorage.getItem("pythonPathProgress"))||{completed:[],scores:{},theme:"dark"}}catch{return{completed:[],scores:{},theme:"dark"}}}
+function saveState(){localStorage.setItem("pythonPathProgress",JSON.stringify(state));updateProgress()}
+function percent(){return Math.round(state.completed.length/lessons.length*100)}
+function updateProgress(){const p=percent();document.getElementById("sidePercent").textContent=p+"%";document.getElementById("sideFill").style.width=p+"%";document.getElementById("sideCount").textContent=state.completed.length+" of "+lessons.length+" lessons completed"}
+function setView(view){document.querySelectorAll(".nav-item[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));document.getElementById("sidebar").classList.remove("open");const names={home:"Overview",lessons:"Learning path",playground:"Python playground",projects:"Projects",progress:"My progress"};document.getElementById("breadcrumb").textContent="Learning space / "+(names[view]||"Lesson");if(view==="home")renderHome();if(view==="lessons")renderLessons();if(view==="playground")renderPlayground();if(view==="projects")renderProjects();if(view==="progress")renderProgress();window.scrollTo({top:0,behavior:"smooth"})}
+function renderHome(){const next=lessons.find(l=>!state.completed.includes(l.id))||lessons[0];document.getElementById("viewRoot").innerHTML=`<section class="hero"><div class="hero-copy"><div class="eyebrow">Your Python learning journey</div><h1>Learn Python.<br>Build something real.</h1><p class="lead">A practical path from your first print statement to reliable programs. Learn one concept, run the code, test your understanding and build projects.</p><div class="hero-buttons"><button class="primary" id="continueBtn">Continue learning →</button><button class="secondary" id="allLessonsBtn">Explore lessons</button></div></div><div class="hero-card"><div class="python">🐍</div><strong>Practice, not just reading.</strong><p>Run Python in your browser, get instant feedback and keep your progress on this device.</p></div></section><section class="stats"><div class="stat"><strong>${lessons.length}</strong><span>Core lessons</span></div><div class="stat"><strong>${state.completed.length}</strong><span>Lessons completed</span></div><div class="stat"><strong>${percent()}%</strong><span>Course progress</span></div></section><div class="section-head"><div><h2>Learning path</h2><p>Start with the foundations and move at your own pace.</p></div><button class="ghost" id="viewAllBtn">View all →</button></div><div class="lesson-grid">${lessons.slice(0,6).map(lessonCard).join("")}</div><div class="section-head"><div><h2>Build your skills</h2><p>Use what you learn in small, practical projects.</p></div><button class="ghost" id="projectsBtn">Explore projects →</button></div><div class="project-grid">${projects.slice(0,3).map(projectCard).join("")}</div><div class="footer">Built by Issika Aymeric Kouamé · Keep learning, keep building.</div>`;
+document.getElementById("continueBtn").onclick=()=>openLesson(next.id);document.getElementById("allLessonsBtn").onclick=()=>setView("lessons");document.getElementById("viewAllBtn").onclick=()=>setView("lessons");document.getElementById("projectsBtn").onclick=()=>setView("projects");wireLessonCards()}
+function lessonCard(l){const done=state.completed.includes(l.id);return `<article class="lesson-card" data-lesson="${l.id}" tabindex="0"><div class="num">LESSON ${String(lessons.indexOf(l)+1).padStart(2,"0")} · ${l.category.toUpperCase()}</div><h3 style="margin-top:9px">${l.title}</h3><p>${l.description}</p><div class="card-bottom"><span>${l.time}</span><span class="pill ${done?"done":""}">${done?"✓ Completed":"Start lesson →"}</span></div></article>`}
+function projectCard(p){return `<article class="project-card"><div class="level">${p.level} project</div><h3 style="margin-top:8px">${p.title}</h3><p>${p.desc}</p></article>`}
+function wireLessonCards(){document.querySelectorAll("[data-lesson]").forEach(card=>{card.onclick=()=>openLesson(card.dataset.lesson);card.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openLesson(card.dataset.lesson)}}})}
+function renderLessons(filter=""){const filtered=lessons.filter(l=>(l.title+" "+l.description+" "+l.category).toLowerCase().includes(filter.toLowerCase()));document.getElementById("viewRoot").innerHTML=`<div class="eyebrow">Curriculum</div><h1 style="font-size:36px">Learning path</h1><p class="lead">Eight focused lessons. Each includes a runnable example and a knowledge check.</p><div class="section-head"><div><h2>All lessons</h2><p>${filtered.length} lessons found</p></div></div><div class="lesson-grid">${filtered.map(lessonCard).join("")||'<div class="empty">No lessons match your search.</div>'}</div>`;wireLessonCards()}
+function openLesson(id){currentLesson=id;const l=lessons.find(x=>x.id===id);selectedAnswer=null;quizFeedback=null;document.getElementById("breadcrumb").textContent="Learning space / "+l.title;document.querySelectorAll(".nav-item[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view==="lessons"));document.getElementById("viewRoot").innerHTML=`<button class="ghost" id="backLessons" style="margin-bottom:18px">← All lessons</button><div class="eyebrow">Lesson ${lessons.indexOf(l)+1} · ${l.category} · ${l.time}</div><h1 style="font-size:36px">${l.title}</h1><p class="lead">${l.description}</p><div class="workspace" style="margin-top:22px"><section class="panel"><div class="lesson-body">${l.body}</div><div class="complete-row"><span style="color:var(--muted);font-size:13px">${state.completed.includes(id)?"You completed this lesson.":"Mark this lesson complete when you are ready."}</span><button class="primary" id="completeBtn">${state.completed.includes(id)?"✓ Completed":"Mark complete"}</button></div></section><div style="display:grid;gap:14px"><section class="panel"><h2>Try it yourself</h2><p style="color:var(--muted);font-size:13px">Edit the code, then run it. Python executes in your browser.</p>${editorMarkup(l.code)}</section><section class="panel" id="quizPanel"><div class="eyebrow">Knowledge check</div><h3>${l.quiz.q}</h3><div class="quiz-options">${l.quiz.options.map((o,i)=>`<button class="quiz-option" data-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div id="quizFeedback"></div><button class="secondary" id="checkAnswer">Check answer</button></section></div></div><div class="section-head"><div><h2>Next lesson</h2><p>Keep your momentum going.</p></div><button class="ghost" id="nextLesson">Next →</button></div>`;
+document.getElementById("backLessons").onclick=()=>setView("lessons");document.getElementById("completeBtn").onclick=()=>{if(!state.completed.includes(id))state.completed.push(id);saveState();openLesson(id)};document.querySelectorAll("[data-answer]").forEach(b=>b.onclick=()=>{selectedAnswer=Number(b.dataset.answer);document.querySelectorAll("[data-answer]").forEach(x=>x.classList.toggle("selected",x===b))});document.getElementById("checkAnswer").onclick=()=>checkQuiz(l);document.getElementById("nextLesson").onclick=()=>{const n=lessons[(lessons.indexOf(l)+1)%lessons.length];openLesson(n.id)};wireEditor()}
+function editorMarkup(code){return `<div class="code-wrap"><div class="code-head"><span>main.py</span><button class="reset-code">Reset code</button></div><textarea class="editor" id="codeEditor" spellcheck="false" aria-label="Python code editor">${escapeHtml(code)}</textarea></div><div class="runbar"><button class="primary run-code">▶ Run code</button><span class="run-status" id="runStatus">Python runtime loads when you first run code.</span></div><div class="output" id="codeOutput" aria-live="polite">Output will appear here…</div>`}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function wireEditor(){const editor=document.getElementById("codeEditor");if(!editor)return;document.querySelector(".reset-code").onclick=()=>{editor.value=lessons.find(l=>l.id===currentLesson)?.code||'print("Hello, Python!")';document.getElementById("codeOutput").textContent="Output will appear here…"};document.querySelector(".run-code").onclick=()=>runCode(editor.value);editor.addEventListener("keydown",e=>{if(e.key==="Tab"){e.preventDefault();const a=editor.selectionStart,b=editor.selectionEnd;editor.setRangeText("    ",a,b,"end")}if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();runCode(editor.value)}})}
+function checkQuiz(l){if(selectedAnswer===null){document.getElementById("quizFeedback").innerHTML='<div class="feedback bad">Choose an answer first.</div>';return}const ok=selectedAnswer===l.quiz.answer;state.scores[l.id]=ok?1:0;saveState();document.getElementById("quizFeedback").innerHTML=`<div class="feedback ${ok?"good":"bad"}">${ok?"Correct!":"Not quite."} ${l.quiz.why}</div>`}
+function ensureWorker(){if(worker)return worker;worker=new Worker("./python-worker.js");worker.onmessage=e=>{const m=e.data;if(m.id!==runId)return;const output=document.getElementById("codeOutput");const status=document.getElementById("runStatus");if(m.type==="stdout"||m.type==="stderr"||m.type==="result"){if(output.textContent==="Running…"||output.textContent==="Output will appear here…")output.textContent="";output.textContent+=(m.text||"")+(m.type==="result"?"\n":"")}if(m.type==="status")status.textContent=m.message;if(m.type==="error"){output.classList.add("error");output.textContent+="Error: "+m.text;status.textContent="Execution failed"}if(m.type==="done"){status.textContent="Execution finished";if(!output.textContent)output.textContent="Program finished with no output."}};worker.onerror=()=>{document.getElementById("runStatus").textContent="Python worker failed to load. Refresh and try again."};return worker}
+function runCode(code){const output=document.getElementById("codeOutput"),status=document.getElementById("runStatus");output.classList.remove("error");output.textContent="Running…";status.textContent="Starting Python…";runId++;const id=runId;try{ensureWorker().postMessage({id,code})}catch(e){output.textContent="Unable to start Python: "+e.message;return}clearTimeout(runTimer);runTimer=setTimeout(()=>{if(worker){worker.terminate();worker=null}output.classList.add("error");output.textContent="Execution stopped: time limit reached (10 seconds). Check for an infinite loop and try again.";status.textContent="Execution timed out";runId++},10000)}
+function renderPlayground(){document.getElementById("breadcrumb").textContent="Learning space / Python playground";document.getElementById("viewRoot").innerHTML=`<div class="eyebrow">Practice lab</div><h1 style="font-size:36px">Python playground</h1><p class="lead">Experiment freely. Your code runs in a browser-based Python runtime; no account or server is required.</p><div class="panel" style="margin-top:22px"><h2>Write and run Python</h2><p style="color:var(--muted);font-size:13px">Try changing the sample, then select Run. The first run downloads the Python runtime and may take a little longer.</p>${editorMarkup('name = "Python learner"\nfor number in range(1, 4):\n    print(f"{number}. Hello, {name}!")')}</div><div class="callout" style="margin-top:15px">This playground is designed for learning. It runs in a browser worker with a short execution limit. It does not provide access to your computer's files or a full server environment.</div>`;wireEditor()}
+function renderProjects(){document.getElementById("viewRoot").innerHTML=`<div class="eyebrow">Apply what you learn</div><h1 style="font-size:36px">Practical projects</h1><p class="lead">Build small applications to turn concepts into working skills. Start with the requirements and add features as you improve.</p><div class="project-grid" style="margin-top:22px">${projects.map(p=>`<article class="project-card"><div class="level">${p.level}</div><h3 style="margin-top:8px">${p.title}</h3><p>${p.desc}</p><strong style="font-size:12px">Requirements</strong><ul style="padding-left:18px;color:var(--muted);font-size:13px">${p.tasks.map(t=>`<li>${t}</li>`).join("")}</ul></article>`).join("")}</div>`}
+function renderProgress(){document.getElementById("viewRoot").innerHTML=`<div class="eyebrow">Your learning</div><h1 style="font-size:36px">My progress</h1><p class="lead">Your progress is saved in this browser on this device.</p><div class="stats" style="margin-top:22px"><div class="stat"><strong>${percent()}%</strong><span>Course completion</span></div><div class="stat"><strong>${state.completed.length}/${lessons.length}</strong><span>Lessons completed</span></div><div class="stat"><strong>${Object.values(state.scores).filter(Boolean).length}</strong><span>Quiz answers correct</span></div></div><div class="panel"><h2>Lesson checklist</h2>${lessons.map(l=>`<div class="complete-row"><span>${l.title}</span><span class="pill ${state.completed.includes(l.id)?"done":""}">${state.completed.includes(l.id)?"✓ Completed":"Not completed"}</span></div>`).join("")}</div>`}
+document.querySelectorAll(".nav-item[data-view]").forEach(b=>b.onclick=()=>setView(b.dataset.view));document.getElementById("menuBtn").onclick=()=>document.getElementById("sidebar").classList.toggle("open");document.getElementById("themeBtn").onclick=()=>{document.documentElement.classList.toggle("light");state.theme=document.documentElement.classList.contains("light")?"light":"dark";saveState()};document.getElementById("resetProgress").onclick=()=>{if(confirm("Reset all lesson completion and quiz progress on this device?")){state.completed=[];state.scores={};saveState();setView("home")}};document.getElementById("searchInput").addEventListener("input",e=>{if(document.querySelector('.nav-item[data-view="lessons"]').classList.contains("active"))renderLessons(e.target.value);else if(e.target.value.trim()){setView("lessons");document.getElementById("searchInput").value=e.target.value;renderLessons(e.target.value)}});if(state.theme==="light")document.documentElement.classList.add("light");updateProgress();renderHome();
 </script>
 </body>
 </html>
