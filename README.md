@@ -9,10 +9,12 @@ A browser-based Python learning platform with guided lessons, runnable examples,
 - **12 guided lessons** covering Python fundamentals, control flow, data structures, functions, exceptions, files, strings, OOP, modules, algorithms, and testing.
 - **Interactive Python playground** powered by Pyodide (WebAssembly) in a dedicated Web Worker.
 - **Knowledge checks** with instant feedback and explanations.
+- **12 automatic coding challenges** with Python assertions, retry feedback, and saved completion status.
+- **Guided practice flow**: understand the task, write a solution, then run the tests.
 - **Project challenges** with beginner, intermediate, and advanced levels, each with a runnable starter template.
 - **Automatic code drafts** saved locally per lesson and project, so unfinished work survives navigation and reloads.
 - **Progress tracking** stored in the current browser using `localStorage`.
-- A refined, light-first interface with a restrained dark theme, responsive layouts, and reduced-motion support.
+- A warm, colorful learning interface with light mode enabled by default, a saved dark-mode option, responsive layouts, and reduced-motion support.
 - **English and French** interface and lesson content.
 - **Light and dark themes**, lesson search, keyboard-friendly navigation, and responsive layouts.
 - Static hosting on GitHub Pages; no application server or account is required.
@@ -23,8 +25,9 @@ A browser-based Python learning platform with guided lessons, runnable examples,
 2. Choose **FR** or **EN** in the top navigation to switch languages.
 3. Select a lesson from the learning path.
 4. Edit the sample code and choose **Run code** (or press `Ctrl+Enter` / `Cmd+Enter` in the editor).
-5. Complete the knowledge check and mark the lesson complete.
-6. Visit **My progress** to review completion on this device.
+5. Complete the knowledge check and try the lesson's automatic coding challenge.
+6. Use the challenge feedback to correct your solution; passed challenges are saved.
+7. Visit **My progress** to review completion and challenge results on this device.
 
 The first Python execution downloads the Pyodide runtime from its CDN, so an internet connection is required for the initial load.
 
@@ -69,10 +72,12 @@ Python Path est une plateforme d’apprentissage de Python dans le navigateur. E
 - 12 leçons guidées, des bases de Python aux tests et bonnes pratiques.
 - Éditeur Python interactif propulsé par Pyodide et WebAssembly.
 - Quiz avec correction et explications immédiates.
-- Projets pratiques de niveaux débutant, intermédiaire et avancé.
+- Projets pratiques de niveaux débutant, intermédiaire et avancé, avec du code de départ exécutable.
+- 12 défis de programmation avec tests automatiques, conseils de correction et suivi des réussites.
+- Parcours de pratique guidé : comprendre, coder, puis vérifier sa solution.
 - Suivi de progression enregistré dans le navigateur avec `localStorage`.
 - Interface et contenu pédagogique en anglais et en français.
-- Thèmes clair et sombre, recherche de leçons et interface adaptative.
+- Interface chaleureuse et colorée, thème clair par défaut, thème sombre mémorisé, recherche de leçons et interface adaptative.
 - Hébergement statique avec GitHub Pages, sans serveur applicatif ni compte obligatoire.
 
 ## Utilisation
@@ -81,8 +86,8 @@ Python Path est une plateforme d’apprentissage de Python dans le navigateur. E
 2. Choisissez **FR** ou **EN** dans la barre supérieure.
 3. Sélectionnez une leçon.
 4. Modifiez l’exemple puis cliquez sur **Exécuter** (ou utilisez `Ctrl+Entrée` / `Cmd+Entrée`).
-5. Répondez au quiz et marquez la leçon comme terminée.
-6. Consultez **Ma progression** pour suivre votre avancement sur cet appareil.
+5. Répondez au quiz puis réalisez le défi de programmation avec ses tests automatiques.
+6. Consultez **Ma progression** pour suivre vos leçons et défis réussis sur cet appareil.
 
 Le premier lancement de Python télécharge Pyodide depuis son CDN. Une connexion Internet est donc nécessaire.
 
