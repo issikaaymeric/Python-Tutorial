@@ -47,4 +47,9 @@ jobs:
           grep -q 'lessonFr' index.html
           grep -q 'projectFr' index.html
           grep -q 'localStorage' index.html
-          echo "Required files and feature markers are present."
+          grep -q 'const challenges=' index.html
+          grep -q 'id="challengeOutput"' index.html
+          grep -q 'state.challengeResults' index.html
+          grep -q 'theme:"light"' index.html
+          grep -q '--purple' index.html
+          echo "Required files, themes, and challenge markers are present."
