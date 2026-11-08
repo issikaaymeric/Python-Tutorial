@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
             data: { id: message.id, type: "status", message: "Python ready" }
           });
           this.onmessage({
-            data: { id: message.id, type: "stdout", text: "Browser test output\\n" }
+            data: { id: message.id, type: "stdout", text: "Browser test output\n" }
           });
           this.onmessage({ data: { id: message.id, type: "done" } });
         }, 0);
@@ -76,7 +76,7 @@ test("lesson challenge saves edits, reports a pass and resets cleanly", async ({
   await expect(page.locator(".challenge-ide .CodeMirror")).toBeVisible();
 
   await page.locator("#challengeEditor").evaluate(el => {
-    el.CodeMirror.setValue('greeting = "Hello, Python!"\\nprint(greeting)');
+    el.CodeMirror.setValue('greeting = "Hello, Python!"\nprint(greeting)');
   });
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("pythonPathProgress")));
   expect(saved.drafts["challenge:intro"]).toContain("Hello, Python!");
