@@ -13,6 +13,8 @@ A browser-based Python learning platform with guided lessons, runnable examples,
 - **Guided practice flow**: understand the task, write a solution, then run the tests.
 - **Project challenges** with beginner, intermediate, and advanced levels, each with a runnable starter template.
 - **Automatic code drafts** saved locally per lesson and project, so unfinished work survives navigation and reloads.
+- **Personal learning dashboard** with weekly goals, an activity calendar, current streaks, achievements, and a clickable lesson roadmap.
+- Learning activity is recorded when a lesson is completed, a quiz is answered correctly, or a coding challenge is passed.
 - **Progress tracking** stored in the current browser using `localStorage`.
 - A warm, colorful learning interface with light mode enabled by default, a saved dark-mode option, responsive layouts, and reduced-motion support.
 - **English and French** interface and lesson content.
@@ -27,7 +29,7 @@ A browser-based Python learning platform with guided lessons, runnable examples,
 4. Edit the sample code and choose **Run code** (or press `Ctrl+Enter` / `Cmd+Enter` in the editor).
 5. Complete the knowledge check and try the lesson's automatic coding challenge.
 6. Use the challenge feedback to correct your solution; passed challenges are saved.
-7. Visit **My progress** to review completion and challenge results on this device.
+7. Visit **Learning dashboard** to review weekly activity, streaks, achievements, lesson completion, and your next step.
 
 The first Python execution downloads the Pyodide runtime from its CDN, so an internet connection is required for the initial load.
 
@@ -75,6 +77,8 @@ Python Path est une plateforme d’apprentissage de Python dans le navigateur. E
 - Projets pratiques de niveaux débutant, intermédiaire et avancé, avec du code de départ exécutable.
 - 12 défis de programmation avec tests automatiques, conseils de correction et suivi des réussites.
 - Parcours de pratique guidé : comprendre, coder, puis vérifier sa solution.
+- Tableau de bord personnel avec objectifs hebdomadaires, calendrier d’activité, séries de jours d’apprentissage, réussites et parcours de leçons interactif.
+- L’activité est enregistrée lorsqu’une leçon est terminée, qu’un quiz reçoit une bonne réponse ou qu’un défi de programmation est réussi.
 - Suivi de progression enregistré dans le navigateur avec `localStorage`.
 - Interface et contenu pédagogique en anglais et en français.
 - Interface chaleureuse et colorée, thème clair par défaut, thème sombre mémorisé, recherche de leçons et interface adaptative.
@@ -87,7 +91,7 @@ Python Path est une plateforme d’apprentissage de Python dans le navigateur. E
 3. Sélectionnez une leçon.
 4. Modifiez l’exemple puis cliquez sur **Exécuter** (ou utilisez `Ctrl+Entrée` / `Cmd+Entrée`).
 5. Répondez au quiz puis réalisez le défi de programmation avec ses tests automatiques.
-6. Consultez **Ma progression** pour suivre vos leçons et défis réussis sur cet appareil.
+6. Consultez le **Tableau de bord** pour suivre votre activité hebdomadaire, vos séries, vos réussites et votre prochaine leçon.
 
 Le premier lancement de Python télécharge Pyodide depuis son CDN. Une connexion Internet est donc nécessaire.
 
