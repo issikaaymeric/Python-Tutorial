@@ -1,0 +1,12 @@
+{
+  "name": "python-path",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Browser regression tests for the Python Path learning app",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
+}

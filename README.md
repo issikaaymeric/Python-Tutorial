@@ -43,13 +43,24 @@ python -m http.server 8000
 
 Then open http://localhost:8000.
 
+Run the browser regression suite with:
+
+```bash
+npm install
+npx playwright install chromium
+npm run test:e2e
+```
+
+The browser tests use a deterministic worker stub to verify the interface-to-worker message flow. They do not download or benchmark the full Pyodide runtime.
+
 Do not open `index.html` directly as a `file://` URL: browser workers and WebAssembly assets generally require an HTTP(S) origin.
 
 ## Architecture
 
 - `index.html` — responsive application UI, curriculum, translations, quizzes, projects, and progress state.
 - `python-worker.js` — browser worker that loads Pyodide and executes Python code.
-- `.github/workflows/validate.yml` — basic JavaScript and feature-presence checks on pushes and pull requests.
+- `.github/workflows/validate.yml` — JavaScript checks, feature-presence checks, and Chromium browser regression tests on pushes and pull requests.
+- `tests/ide.spec.js` and `playwright.config.js` — automated IDE tests for editing, local draft persistence, execution feedback, challenge completion/reset, and the plain-text fallback.
 
 ## Important limitations
 
