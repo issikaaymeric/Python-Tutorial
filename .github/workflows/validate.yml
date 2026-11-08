@@ -43,6 +43,7 @@ jobs:
         run: |
           test -f index.html
           test -f python-worker.js
+          test -f styles.css
           grep -q 'python-worker.js' index.html
           grep -q 'lessonFr' index.html
           grep -q 'projectFr' index.html
@@ -55,5 +56,5 @@ jobs:
           grep -q 'function recordLearning' index.html
           grep -q 'function learningStreak' index.html
           grep -q 'id="weeklyGoal"' index.html
-          grep -q 'achievement-grid' index.html
+          grep -q '\.achievement-grid' styles.css
           echo "Required files, themes, and challenge markers are present."
