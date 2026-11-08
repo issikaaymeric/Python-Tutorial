@@ -399,3 +399,17 @@ code { font-family: var(--mono); font-size: .88em; font-weight: 600; background:
  .ide-controls .run-status { width:100%; margin-left:0; }
  .ide-editor-area .CodeMirror { font-size:12px; }
 }
+
+/* Python syntax colors for the custom CodeMirror theme */
+.ide-editor-area .cm-s-py-path .cm-keyword,
+.ide-editor-area .cm-s-py-path .cm-operator { color:#c792ea; }
+.ide-editor-area .cm-s-py-path .cm-def,
+.ide-editor-area .cm-s-py-path .cm-variable-2 { color:#82aaff; }
+.ide-editor-area .cm-s-py-path .cm-builtin,
+.ide-editor-area .cm-s-py-path .cm-property { color:#ffcb6b; }
+.ide-editor-area .cm-s-py-path .cm-string { color:#c3e88d; }
+.ide-editor-area .cm-s-py-path .cm-number,
+.ide-editor-area .cm-s-py-path .cm-atom { color:#f78c6c; }
+.ide-editor-area .cm-s-py-path .cm-comment { color:#71859d; font-style:italic; }
+.ide-editor-area .cm-s-py-path .cm-variable { color:#dce7f5; }
+.ide-editor-area .cm-s-py-path .cm-meta { color:#89ddff; }
