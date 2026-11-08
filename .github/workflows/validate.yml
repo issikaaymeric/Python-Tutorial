@@ -58,3 +58,28 @@ jobs:
           grep -q 'id="weeklyGoal"' index.html
           grep -q '\.achievement-grid' styles.css
           echo "Required files, themes, and challenge markers are present."
+
+  browser-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install browser test dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run IDE browser regression tests
+        run: npm run test:e2e
