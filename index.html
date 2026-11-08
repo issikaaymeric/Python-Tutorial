@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101827">
+<meta name="theme-color" content="#f5f5f7">
 <meta name="description" content="Learn Python through clear lessons, hands-on coding, quizzes and projects.">
 <title>Python Path — Learn by building</title>
 <link rel="icon" href="https://www.python.org/static/favicon.ico">
@@ -16,6 +16,49 @@
 @media(max-width:1000px){.lesson-grid,.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr .7fr}}
 @media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{position:fixed;z-index:20;left:-290px;width:270px;transition:left .2s;box-shadow:var(--shadow)}.sidebar.open{left:0}.mobile-menu{display:block}.hero{grid-template-columns:1fr}.hero-card{min-height:150px}.workspace{grid-template-columns:1fr}.lesson-grid,.project-grid{grid-template-columns:1fr 1fr}.content{padding-top:24px}.topbar{padding:0 16px}}
 @media(max-width:480px){.lesson-grid,.project-grid,.stats{grid-template-columns:1fr}.topbar{height:62px}.search{width:100%;max-width:170px}.hero-copy{padding:22px}.hero-card{display:none}.complete-row{align-items:flex-start;flex-direction:column}}
+
+/* Refined, light-first visual system */
+:root{color-scheme:light;--bg:#f5f5f7;--panel:#fff;--panel2:#f5f5f7;--line:#e5e5ea;--text:#1d1d1f;--muted:#6e6e73;--blue:#06c;--yellow:#b7791f;--green:#16834a;--red:#c43d40;--shadow:0 2px 12px rgba(0,0,0,.035)}
+:root:not(.light){color-scheme:dark;--bg:#101114;--panel:#1c1c1e;--panel2:#2c2c2e;--line:#38383a;--text:#f5f5f7;--muted:#a1a1a6;--blue:#2997ff;--yellow:#f5c451;--green:#30d158;--red:#ff6961;--shadow:0 3px 18px rgba(0,0,0,.18)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;letter-spacing:-.012em;background:var(--bg)}
+.app{grid-template-columns:248px minmax(0,1fr)}
+.sidebar{background:var(--bg);border-right:1px solid var(--line);padding:26px 18px;gap:28px}
+.brand-mark{background:#1d1d1f;color:#fff;border-radius:11px;width:36px;height:36px;font-size:17px;letter-spacing:-.06em}
+.brand strong{font-size:15px;letter-spacing:-.025em}.brand small{font-size:12px}
+.nav-label{font-size:10px;letter-spacing:.09em;font-weight:700}
+.nav-list{gap:3px}.nav-item{padding:9px 11px;border-radius:9px;font-size:13px;transition:background .16s,color .16s}
+.nav-item:hover,.nav-item.active{background:var(--panel2);color:var(--text)}.nav-item.active{box-shadow:none;font-weight:650}
+.nav-icon{font-size:15px;opacity:.72}.side-progress{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px}.fill{background:var(--blue)}
+.topbar{height:64px;background:color-mix(in srgb,var(--bg) 90%,transparent);border-bottom-color:var(--line);padding:0 clamp(20px,4vw,58px)}
+.crumb{font-size:12px}.icon-btn,.mobile-menu{background:var(--panel);border-color:var(--line);border-radius:9px;padding:7px 10px;font-size:12px}
+.content{max-width:1160px;padding:42px clamp(20px,4vw,58px) 76px}
+.eyebrow{font-size:10px;letter-spacing:.11em;font-weight:700;color:var(--muted)}
+h1{font-size:clamp(34px,4.2vw,52px);font-weight:650;letter-spacing:-.055em;line-height:1.04}
+h2{font-size:24px;font-weight:620;letter-spacing:-.04em}h3{font-size:16px;font-weight:620;letter-spacing:-.025em}
+.lead{font-size:15px;line-height:1.7;color:var(--muted)}
+.hero{grid-template-columns:minmax(0,1fr);gap:0;margin-bottom:28px}
+.hero-copy,.hero-card,.panel,.lesson-card,.project-card{box-shadow:none;border-radius:14px}
+.hero-copy{padding:clamp(26px,5vw,54px);background:var(--panel);border-color:var(--line)}.hero-card{display:none}
+.hero-buttons{margin-top:26px}
+.primary,.secondary,.ghost{border-radius:9px;padding:9px 14px;font-size:13px;font-weight:600;transition:background .16s,border-color .16s,transform .16s}
+.primary{background:var(--text);color:var(--bg)}.primary:hover{opacity:.88}
+.secondary{background:var(--panel);border-color:var(--line)}.ghost{background:transparent;border-color:var(--line)}
+.stats{gap:12px;margin-bottom:34px}.stat{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:14px 4px}
+.stat strong{font-size:27px;font-weight:620;letter-spacing:-.05em}.stat span{font-size:12px;color:var(--muted)}
+.section-head{margin:36px 0 15px}.lesson-grid,.project-grid{gap:12px}
+.lesson-card,.project-card{background:var(--panel);border:1px solid var(--line);padding:19px;transition:border-color .16s,transform .16s}
+.lesson-card:hover,.project-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--blue) 48%,var(--line))}
+.lesson-card p,.project-card p{font-size:13px;line-height:1.65}.pill{border-radius:6px;background:var(--panel2);font-size:10px;padding:4px 7px}
+.workspace{gap:14px}.panel{padding:22px}.callout{background:var(--panel2);border-left:2px solid var(--blue);border-radius:8px}
+.code-wrap{border-color:#303036;border-radius:10px}.code-head{background:#242428;color:#d1d1d6}.code-head button{background:#3a3a40;border-radius:6px}
+.editor{font-size:13px;line-height:1.75;min-height:230px}.output{border-radius:9px}
+.quiz-option{border-radius:9px;background:var(--panel);font-size:13px}.quiz-option.selected{border-color:var(--blue)}
+.search{background:var(--panel);border-color:var(--line);border-radius:9px;font-size:12px}
+.project-start{margin-top:13px;width:100%;text-align:left}.project-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 55%,transparent);outline-offset:2px}
+@media(max-width:760px){.sidebar{background:var(--panel)}.content{padding-top:28px}.hero-copy{padding:28px}.workspace{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
