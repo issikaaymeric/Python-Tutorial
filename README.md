@@ -9,8 +9,10 @@ A browser-based Python learning platform with guided lessons, runnable examples,
 - **12 guided lessons** covering Python fundamentals, control flow, data structures, functions, exceptions, files, strings, OOP, modules, algorithms, and testing.
 - **Interactive Python playground** powered by Pyodide (WebAssembly) in a dedicated Web Worker.
 - **Knowledge checks** with instant feedback and explanations.
-- **Project challenges** with beginner, intermediate, and advanced levels.
+- **Project challenges** with beginner, intermediate, and advanced levels, each with a runnable starter template.
+- **Automatic code drafts** saved locally per lesson and project, so unfinished work survives navigation and reloads.
 - **Progress tracking** stored in the current browser using `localStorage`.
+- A refined, light-first interface with a restrained dark theme, responsive layouts, and reduced-motion support.
 - **English and French** interface and lesson content.
 - **Light and dark themes**, lesson search, keyboard-friendly navigation, and responsive layouts.
 - Static hosting on GitHub Pages; no application server or account is required.
