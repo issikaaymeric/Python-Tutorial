@@ -356,3 +356,46 @@ code { font-family: var(--mono); font-size: .88em; font-weight: 600; background:
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+/* ---------- Professional Python IDE ---------- */
+.ide-shell { overflow: hidden; border: 1px solid #26384c; border-radius: 12px; background: #101a27; box-shadow: 0 14px 34px rgba(15, 28, 45, .14); }
+.ide-toolbar { min-height: 58px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:10px 14px; background:#182638; border-bottom:1px solid #2a3c52; }
+.ide-file { display:flex; align-items:center; gap:10px; min-width:0; color:#e7eef8; }
+.ide-file-icon { width:30px; height:34px; display:grid; place-items:center; border-radius:6px; background:#ffd343; color:#263449; font:800 11px var(--mono); }
+.ide-file strong,.ide-file small { display:block; }
+.ide-file strong { font:600 13px var(--mono); color:#f3f6fb; }
+.ide-file small { margin-top:2px; color:#93a5ba; font:11px var(--mono); }
+.ide-toolbar-actions { display:flex; align-items:center; gap:12px; }
+.ide-runtime { display:inline-flex; align-items:center; gap:7px; color:#9fb0c4; font:11px var(--mono); white-space:nowrap; }
+.ide-runtime i,.terminal-head i { width:7px; height:7px; display:inline-block; border-radius:50%; background:#50c878; box-shadow:0 0 0 3px rgba(80,200,120,.13); }
+.ide-quiet { border:1px solid #3a4d63; border-radius:6px; padding:6px 10px; background:transparent; color:#b7c5d6; font:11px var(--mono); }
+.ide-quiet:hover { border-color:#7f9ab8; color:#fff; }
+.ide-editor-area { min-width:0; background:#101a27; }
+.ide-editor-area .CodeMirror { height:auto; min-height:250px; max-height:520px; padding:12px 0; background:#101a27; color:#dce7f5; font:13px/1.75 var(--mono); }
+.ide-editor-area .CodeMirror-scroll { min-height:250px; }
+.ide-editor-area .CodeMirror-gutters { background:#101a27; border-right:1px solid #26384c; }
+.ide-editor-area .CodeMirror-linenumber { color:#60758e; padding:0 12px 0 8px; }
+.ide-editor-area .CodeMirror-cursor { border-left:2px solid #f3c94b; }
+.ide-editor-area .CodeMirror-selected { background:#29415d !important; }
+.ide-editor-area .CodeMirror-activeline-background { background:rgba(100,145,190,.09); }
+.ide-editor-area .CodeMirror-matchingbracket { color:#ffe08a !important; outline:1px solid #8b7438; }
+.ide-statusbar { display:flex; justify-content:space-between; gap:12px; padding:7px 13px; background:#1a2a3d; border-top:1px solid #2a3c52; color:#93a7bd; font:10px var(--mono); }
+.ide-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:13px 0 16px; }
+.ide-controls .primary { min-width:138px; }
+.ide-shortcut { color:var(--muted); font:11px var(--mono); }
+.ide-controls .run-status { margin-left:auto; font:11px var(--mono); }
+.terminal-panel { overflow:hidden; border:1px solid #26384c; border-radius:10px; background:#0d1621; }
+.terminal-head { min-height:39px; display:flex; align-items:center; justify-content:space-between; padding:0 13px; background:#172538; border-bottom:1px solid #26384c; color:#9fb1c5; font:10px var(--mono); letter-spacing:.08em; }
+.terminal-head span { display:flex; align-items:center; gap:9px; }
+.terminal-head button { border:0; background:transparent; color:#91a5bc; font:10px var(--mono); }
+.terminal-head button:hover { color:#fff; }
+.terminal-panel .output { min-height:90px; max-height:260px; overflow:auto; margin:0; padding:15px 16px; border:0; border-radius:0; background:#0d1621; color:#d4e0ee; font:12px/1.75 var(--mono); font-weight:400; white-space:pre-wrap; }
+.terminal-panel .output:empty::before { content:"No output yet."; color:#63758a; }
+.terminal-panel .output.error { color:#ff9b9b; }
+.challenge-ide .CodeMirror,.challenge-ide .CodeMirror-scroll { min-height:210px; }
+@media(max-width:600px) {
+ .ide-toolbar { align-items:flex-start; }
+ .ide-runtime { display:none; }
+ .ide-controls .run-status { width:100%; margin-left:0; }
+ .ide-editor-area .CodeMirror { font-size:12px; }
+}
