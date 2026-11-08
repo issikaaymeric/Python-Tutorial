@@ -52,7 +52,7 @@ jobs:
           grep -q 'id="challengeOutput"' index.html
           grep -q 'state.challengeResults' index.html
           grep -q 'theme:"light"' index.html
-          grep -q -- '--purple' index.html
+          grep -q -- '--blue' styles.css
           grep -q 'function recordLearning' index.html
           grep -q 'function learningStreak' index.html
           grep -q 'id="weeklyGoal"' index.html
